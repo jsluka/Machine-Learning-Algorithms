@@ -1,11 +1,11 @@
 import numpy as np
 import sys,csv,math
 
-class linearRegression:
+class stochasticGradientDescent:
     def __init__(self,trainingDataFilename,testDataFilename,numIters,learnRate):
         self.trainFile = trainingDataFilename
         self.testFile = testDataFilename
-        self.Iters = numIters
+        self.iters = numIters
         self.n = learnRate
         self.w = []   # list of weights
         self.b = 0    # bias
@@ -20,40 +20,26 @@ class linearRegression:
     def operations(self):
         self.readData()    # read in the data
         self.learnModel()  # learn the model
-        self.squaredLossFin() # test the model
+        self.squaredLoss() # test the model
 
     # Learn the Regression Model
     def learnModel(self):
-        tW = []
-        for i in range(0,10):
-            for j in range(0,len(self.w)):
-                summed = self.sumDot()
-                tW.append(self.w[j]-(self.n*(1/len(self.x))*summed*self.x[i][j]))
-        for i in range(0,len(self.w)):
-            self.w[i] = tW[i]
+        for iteration in range(0,self.iters):
+            for i in range(0,len(self.x)):
+                for j in range(0,len(self.w)):
+                    self.w[j] = self.w[j] + (self.n*(self.y[i] - np.dot(self.w,self.x[i]))*self.x[i][j])
+                # endfor
+                print(self.w)
+            # endfor
+        # endfor
 
-    def sumDot(self):
-        total = 0
-        for i in range(0,len(self.x)):
-            total = total + np.dot(self.x[i],self.w) - self.y[i]
-        return total
-            
     # Test the Regression Model
     def squaredLoss(self):
-        yHat = 0
-        squaredSum = 0
-        for i in range(0,len(self.x)):
-            squaredSum += np.dot(self.w,self.x[i])**2
-        # endfor
-        ratio = float(squaredSum) / float(len(self.x))
-        return ratio
-
-    # Test the Regression Model
-    def squaredLossFin(self):
+        print(self.w)
         yHat = 0
         squaredSum = 0
         for i in range(0,len(self.tX)):
-            squaredSum += np.dot(self.w,self.tX[i])**2
+            squaredSum += (self.tY[i] - np.dot(self.w,self.tX[i]))**2
         # endfor
         ratio = float(squaredSum) / float(len(self.tX))
         print("SQUARED-LOSS: %f"%ratio)
