@@ -29,7 +29,6 @@ class stochasticGradientDescent:
                 for j in range(0,len(self.w)):
                     self.w[j] = self.w[j] + (self.n*(self.y[i] - np.dot(self.w,self.x[i]))*self.x[i][j])
                 # endfor
-                print(self.w)
             # endfor
         # endfor
 
