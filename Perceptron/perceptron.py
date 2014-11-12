@@ -42,7 +42,7 @@ class Perceptron:
         yHat = 0
         wrong = 0
         for i in range(0,len(self.tX)):
-            yHat = np.sign(np.dot(self.w,self.tX[i]))
+            yHat = np.sign(np.dot(self.w,self.tX[i])+self.b)
             if(yHat != self.tY[i]):
                 wrong += 1
             # endif

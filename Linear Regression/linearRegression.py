@@ -20,30 +20,43 @@ class linearRegression:
     def operations(self):
         self.readData()    # read in the data
         self.learnModel()  # learn the model
-        self.squaredLoss() # test the model
+        self.squaredLossFin() # test the model
 
     # Learn the Regression Model
     def learnModel(self):
-        yHat, e = 0, 0
-        for it in range(0,self.Iters):
-            for i in range(0,len(self.x)):
-                diff = self.y[i] - np.dot(self.w,self.x[i])
-                for j in range(0,len(self.w)):
-                    self.w[j] = self.w[j] + self.n*diff*self.x[i][j]
-                # endfor
-            # endfor
-        # endfor
+        tW = []
+        for i in range(0,10):
+            for j in range(0,len(self.w)):
+                summed = self.sumDot()
+                tW.append(self.w[j]-(self.n*(1/len(self.x))*summed*self.x[i][j]))
+        for i in range(0,len(self.w)):
+            self.w[i] = tW[i]
 
-                
+    def sumDot(self):
+        total = 0
+        for i in range(0,len(self.x)):
+            total = total + np.dot(self.x[i],self.w) - self.y[i]
+        return total
+            
     # Test the Regression Model
     def squaredLoss(self):
+        yHat = 0
+        squaredSum = 0
+        for i in range(0,len(self.x)):
+            squaredSum += np.dot(self.w,self.x[i])**2
+        # endfor
+        ratio = float(squaredSum) / float(len(self.x))
+        return ratio
+
+    # Test the Regression Model
+    def squaredLossFin(self):
         yHat = 0
         squaredSum = 0
         for i in range(0,len(self.tX)):
             squaredSum += np.dot(self.w,self.tX[i])**2
         # endfor
         ratio = float(squaredSum) / float(len(self.tX))
-        print("SQUARED LOSS = %f"%(ratio))
+        print("SQUARED-LOSS: %f"%ratio)
         print("Learning is fun!")
 
     # Read the .CSV files
