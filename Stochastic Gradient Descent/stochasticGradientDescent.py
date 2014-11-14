@@ -35,7 +35,6 @@ class stochasticGradientDescent:
     # Test the Regression Model
     def squaredLoss(self):
         print(self.w)
-        yHat = 0
         squaredSum = 0
         for i in range(0,len(self.tX)):
             squaredSum += (self.tY[i] - np.dot(self.w,self.tX[i]))**2
